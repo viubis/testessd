@@ -130,6 +130,8 @@ int main() {
 	pinMode (BUTTON_JANELA, INPUT) ;
 
     printf ("pinos de botão foram configurados. \n") ;
+	
+	usleep(1000);
 //fim conf pinos	
 
 
