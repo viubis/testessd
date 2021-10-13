@@ -1,24 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "MQTTClient.h"
 #include <unistd.h>
 #include <wiringPi.h>
 #include <stdbool.h>
 #include <locale.h>
-// #define ADDRESS     "tcp://localhost:1883"
-//...................................................................
-//... ADRESS
-//...................................................................
-#define ADDRESS     "ssl://b0b1b4c6d9b148d7bc0f4c535f24c67a.s1.eu.hivemq.cloud:8883" 
-#define ID          "RASPBERRY"
 
 #define QOS            2
 #define TIMEOUT        10000L
 #define KEEP_ALIVE     60
 #define CLOCKS_PER_SEC 1
 
-volatile MQTTClient_deliveryToken deliveredtoken;
 
 //Entradas Switchs e buttons
 #define SWITCH_PRESENCA_SALA 4 
@@ -77,40 +69,43 @@ Components comp
 
 //verifica alterações na entrada
 bool alteracao(int presenca_sala,int presenca_garagem,int presenca_interno,int switch_alarme,int janela,int porta){
-	
+	bool estado;
 	int estado_presenca_garagem, estado_presenca_interna, estado_presenca_sala, estado_alarme, estado_porta, estado_janela;
-	
+	usleep(1000);
 	if(presenca_sala != estado_presenca_sala){
 		estado_presenca_sala = presenca_sala;
 		printf("sala\n");
-		return true;
+		estado = true;
 	}
 	if(presenca_garagem != estado_presenca_garagem){
 		estado_presenca_garagem = presenca_garagem;
 		printf("garagem\n");
-		return true;
+		estado = true;
 	}
 	if(presenca_interno != estado_presenca_interna){
 		estado_presenca_interna = presenca_interno;
 		printf("interno\n");
-		return true;
+		estado = true;
 	}
 	if(switch_alarme != estado_alarme){
 		estado_alarme = switch_alarme;
 		printf("alarme\n");
-		return true;
+		estado = true;
 	}
 	if(janela != estado_janela){
 		estado_janela = janela;
 		printf("janela\n");
-		return true;
+		estado = true;
 	}
 	if(porta != estado_porta){
 		estado_porta = porta;
 		printf("porta\n");
-		return true;
+		estado = true;
 	}
+	if(estado == true){
 
+		return estado;
+	}
 	return false;
 }
   
